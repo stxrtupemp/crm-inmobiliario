@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { tokenStorage } from '../lib/api';
+import { tokenStorage } from '../lib/tokenStorage';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
