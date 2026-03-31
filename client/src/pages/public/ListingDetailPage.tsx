@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, MapPin, Bed, Bath, Car,
@@ -219,6 +219,8 @@ const FEATURE_LABELS: Record<string, string> = {
 export function ListingDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const { data, isLoading } = usePropertyBySlug(slug ?? '');
+
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [slug]);
   const p = data as PropRecord | undefined;
 
   if (isLoading) return <PageSpinner />;

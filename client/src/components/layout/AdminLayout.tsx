@@ -10,12 +10,9 @@ import { useWebContacts } from '../../hooks/useQueries';
 
 function Topbar() {
   const user        = useAuthStore((s) => s.user);
-  const sidebarOpen = useUIStore((s) => s.sidebarOpen);
   const toggle      = useUIStore((s) => s.toggleSidebar);
   const collapsed   = useUIStore((s) => s.sidebarCollapsed);
   const navigate    = useNavigate();
-
-  const sidebarW = collapsed ? 64 : 256;
 
   // Unread web contacts — polling cada 60s
   const { data: unreadData } = useWebContacts({ read: 'false', limit: 1 });
@@ -23,8 +20,11 @@ function Topbar() {
 
   return (
     <header
-      className="fixed top-0 right-0 z-20 flex h-[60px] items-center gap-4 border-b border-surface-200 bg-white px-4 transition-all duration-300"
-      style={{ left: sidebarW }}
+      className={cn(
+        'fixed top-0 right-0 z-20 flex h-[60px] items-center gap-4 border-b border-surface-200 bg-white px-4 transition-all duration-300',
+        'left-0',
+        collapsed ? 'lg:left-16' : 'lg:left-64',
+      )}
     >
       {/* Mobile menu toggle */}
       <button
@@ -70,21 +70,34 @@ function Topbar() {
 // ─── AdminLayout ─────────────────────────────────────────────────────────────
 
 export function AdminLayout() {
-  const collapsed = useUIStore((s) => s.sidebarCollapsed);
-  const sidebarW  = collapsed ? 64 : 256;
+  const collapsed    = useUIStore((s) => s.sidebarCollapsed);
+  const sidebarOpen  = useUIStore((s) => s.sidebarOpen);
+  const setSidebarOpen = useUIStore((s) => s.setSidebarOpen);
 
   return (
     <div className="min-h-screen bg-surface-50">
       <Sidebar />
 
-      {/* Main area — offset by sidebar width */}
+      {/* Mobile backdrop — closes sidebar when tapping outside */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black/40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden
+        />
+      )}
+
+      {/* Main area — on desktop offset by sidebar width; on mobile full width */}
       <div
-        className="flex min-h-screen flex-col transition-all duration-300"
-        style={{ paddingLeft: sidebarW }}
+        className={cn(
+          'flex min-h-screen flex-col transition-all duration-300',
+          'pl-0',
+          collapsed ? 'lg:pl-16' : 'lg:pl-64',
+        )}
       >
         <Topbar />
 
-        <main className="flex-1 p-6 pt-[calc(60px+1.5rem)]">
+        <main className="flex-1 p-4 pt-[calc(60px+1rem)] sm:p-6 sm:pt-[calc(60px+1.5rem)]">
           <Outlet />
         </main>
       </div>

@@ -27,17 +27,26 @@ const navItems: NavItem[] = [
 ];
 
 export function Sidebar() {
-  const user       = useAuthStore((s) => s.user);
-  const { logout } = useAuth();
-  const collapsed  = useUIStore((s) => s.sidebarCollapsed);
-  const toggle     = useUIStore((s) => s.toggleCollapsed);
-  const navigate   = useNavigate();
+  const user          = useAuthStore((s) => s.user);
+  const { logout }    = useAuth();
+  const collapsed     = useUIStore((s) => s.sidebarCollapsed);
+  const toggle        = useUIStore((s) => s.toggleCollapsed);
+  const sidebarOpen   = useUIStore((s) => s.sidebarOpen);
+  const setSidebarOpen = useUIStore((s) => s.setSidebarOpen);
+  const navigate      = useNavigate();
+
+  function closeMobile() {
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+  }
 
   return (
     <aside
       className={cn(
         'fixed inset-y-0 left-0 z-30 flex flex-col bg-surface-900 transition-all duration-300',
         collapsed ? 'w-16' : 'w-64',
+        // Mobile: slide in/out as overlay; desktop: always visible
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+        'lg:translate-x-0',
       )}
     >
       {/* Logo */}
@@ -62,6 +71,7 @@ export function Sidebar() {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={closeMobile}
               className={({ isActive }) =>
                 cn('nav-item', isActive && 'nav-item-active', collapsed && 'justify-center px-0')
               }

@@ -251,7 +251,7 @@ export function ListingsPage() {
 
       {/* Page header */}
       <div className="border-b border-cream-200 bg-white">
-        <div className="pub-container flex items-center justify-between py-6">
+        <div className="pub-container flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:py-6">
           <div>
             <h1 className="pub-heading">Propiedades</h1>
             {meta && (

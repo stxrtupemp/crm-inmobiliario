@@ -88,10 +88,10 @@ function HeroSearch() {
 
   return (
     <form onSubmit={submit} className="flex w-full max-w-2xl flex-col gap-3 sm:flex-row">
-      <div className="flex overflow-hidden rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm shrink-0">
+      <div className="flex w-full overflow-hidden rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm sm:w-auto sm:shrink-0">
         {(['', 'SALE', 'RENT'] as const).map((o) => (
           <button key={o} type="button" onClick={() => setOp(o)}
-            className={cn('px-4 py-3 text-sm font-semibold transition-colors', op === o ? 'bg-gold-500 text-white' : 'text-white/80 hover:text-white')}>
+            className={cn('flex-1 px-4 py-3 text-sm font-semibold transition-colors', op === o ? 'bg-gold-500 text-white' : 'text-white/80 hover:text-white')}>
             {o === '' ? 'Todos' : o === 'SALE' ? 'Venta' : 'Alquiler'}
           </button>
         ))}
