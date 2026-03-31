@@ -15,7 +15,7 @@ ARG VITE_PUBLIC_URL=https://crminmobiliario.es
 ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_PUBLIC_URL=$VITE_PUBLIC_URL
 
-RUN npm run build
+RUN npx vite build
 
 # ── Production stage — nginx ───────────────────────────────────────────────────
 FROM nginx:1.26-alpine AS runner
