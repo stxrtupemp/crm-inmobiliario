@@ -10,7 +10,7 @@ COPY . .
 
 # VITE_API_URL must be set at build time — set this variable in Railway service settings
 # e.g. VITE_API_URL=https://crm-inmobiliario-production-834e.up.railway.app/api
-ARG VITE_API_URL=https://crminmo.up.railway.app/api
+ARG VITE_API_URL=https://crm-inmobiliario-production-834e.up.railway.app/api
 ARG VITE_PUBLIC_URL=https://crminmobiliario.es
 
 ENV VITE_API_URL=$VITE_API_URL
