@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { SEO }           from '../../components/SEO';
 import { useProperties } from '../../hooks/useQueries';
+import { TENANT_SLUG }   from '../../lib/api';
 import { Pagination }    from '../../components/ui/Pagination';
 import { SkeletonCard }  from '../../components/ui/Skeleton';
 import { PublicPropertyCard } from './HomePage';
@@ -227,6 +228,7 @@ export function ListingsPage() {
 
   const params: Record<string, unknown> = {
     page, limit: 12, status: 'AVAILABLE', sort,
+    ...(TENANT_SLUG && { tenant: TENANT_SLUG }),
     ...(filters.operation && { operation: filters.operation }),
     ...(filters.type      && { type:      filters.type      }),
     ...(filters.city      && { city:      filters.city      }),

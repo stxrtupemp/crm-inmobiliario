@@ -25,6 +25,8 @@ export interface PaginationMeta {
 export { tokenStorage } from './tokenStorage';
 import { tokenStorage } from './tokenStorage';
 
+export const TENANT_SLUG: string | undefined = import.meta.env['VITE_TENANT_SLUG'] as string | undefined;
+
 // ─── Axios instance ───────────────────────────────────────────────────────────
 
 export const api = axios.create({

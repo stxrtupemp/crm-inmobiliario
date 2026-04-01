@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { apiList, apiGet, apiPost, apiPut, apiPatch, apiDelete, api } from '../lib/api';
+import { apiList, apiGet, apiPost, apiPut, apiPatch, apiDelete, api, TENANT_SLUG } from '../lib/api';
 import { buildParams } from '../lib/utils';
 
 // ─── QUERY KEYS ───────────────────────────────────────────────────────────────
@@ -339,5 +339,37 @@ export function useAgents() {
     queryKey: ['users', 'agents'],
     queryFn:  () => apiList<Record<string,unknown>>('/users', { role: 'AGENT', active: 'true', limit: '100' }),
     staleTime: 1000 * 60 * 10,
+  });
+}
+
+// ─── TENANTS ──────────────────────────────────────────────────────────────────
+export function useTenants(params: Record<string,unknown> = {}) {
+  return useQuery({
+    queryKey: ['tenants', params],
+    queryFn:  () => apiList<Record<string,unknown>>('/tenants', buildParams(params)),
+  });
+}
+
+export function useCreateTenant() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: Record<string,unknown>) => apiPost('/tenants', data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['tenants'] }); toast.success('Empresa creada'); },
+  });
+}
+
+export function useUpdateTenant(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: Record<string,unknown>) => apiPatch(`/tenants/${id}`, data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['tenants'] }); toast.success('Empresa actualizada'); },
+  });
+}
+
+export function useCreateTenantUser(tenantId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: Record<string,unknown>) => apiPost(`/tenants/${tenantId}/users`, data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['tenants'] }); toast.success('Usuario creado'); },
   });
 }

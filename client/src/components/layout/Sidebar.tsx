@@ -10,20 +10,22 @@ import { useUIStore }   from '../../stores/uiStore';
 import { useAuth }      from '../../hooks/useAuth';
 
 interface NavItem {
-  label:    string;
-  to:       string;
-  icon:     React.ReactNode;
-  adminOnly?: boolean;
+  label:          string;
+  to:             string;
+  icon:           React.ReactNode;
+  adminOnly?:     boolean;
+  superAdminOnly?: boolean;
 }
 
 const navItems: NavItem[] = [
-  { label: 'Dashboard',   to: '/admin/dashboard',   icon: <LayoutDashboard size={18} /> },
-  { label: 'Propiedades', to: '/admin/properties',  icon: <Building2 size={18} /> },
-  { label: 'Clientes',    to: '/admin/clients',     icon: <Users size={18} /> },
-  { label: 'Pipeline',    to: '/admin/deals',       icon: <Briefcase size={18} /> },
-  { label: 'Tareas',      to: '/admin/tasks',       icon: <CheckSquare size={18} /> },
+  { label: 'Dashboard',    to: '/admin/dashboard',     icon: <LayoutDashboard size={18} /> },
+  { label: 'Propiedades',  to: '/admin/properties',    icon: <Building2 size={18} /> },
+  { label: 'Clientes',     to: '/admin/clients',       icon: <Users size={18} /> },
+  { label: 'Pipeline',     to: '/admin/deals',         icon: <Briefcase size={18} /> },
+  { label: 'Tareas',       to: '/admin/tasks',         icon: <CheckSquare size={18} /> },
   { label: 'Contactos web', to: '/admin/web-contacts', icon: <MessageSquare size={18} /> },
-  { label: 'Usuarios',    to: '/admin/users',       icon: <UserCog size={18} />, adminOnly: true },
+  { label: 'Usuarios',     to: '/admin/users',         icon: <UserCog size={18} />, adminOnly: true },
+  { label: 'Empresas',     to: '/admin/tenants',       icon: <Building2 size={18} />, superAdminOnly: true },
 ];
 
 export function Sidebar() {
@@ -65,7 +67,8 @@ export function Sidebar() {
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5">
         {navItems.map((item) => {
-          if (item.adminOnly && user?.role !== 'ADMIN') return null;
+          if (item.superAdminOnly && user?.role !== 'SUPER_ADMIN') return null;
+          if (item.adminOnly && user?.role !== 'ADMIN' && user?.role !== 'SUPER_ADMIN') return null;
 
           return (
             <NavLink

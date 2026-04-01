@@ -12,9 +12,11 @@ COPY . .
 # e.g. VITE_API_URL=https://crm-inmobiliario-production-834e.up.railway.app/api
 ARG VITE_API_URL=https://crm-inmobiliario-production-834e.up.railway.app/api
 ARG VITE_PUBLIC_URL=https://crminmobiliario.es
+ARG VITE_TENANT_SLUG=default
 
 ENV VITE_API_URL=$VITE_API_URL
 ENV VITE_PUBLIC_URL=$VITE_PUBLIC_URL
+ENV VITE_TENANT_SLUG=$VITE_TENANT_SLUG
 
 RUN npx vite build
 

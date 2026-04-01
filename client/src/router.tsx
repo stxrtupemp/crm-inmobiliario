@@ -19,6 +19,7 @@ const DealsPage          = lazy(() => import('./pages/admin/DealsPage').then((m)
 const TasksPage          = lazy(() => import('./pages/admin/TasksPage').then((m) => ({ default: m.TasksPage })));
 const ContactsPage       = lazy(() => import('./pages/admin/ContactsPage').then((m) => ({ default: m.ContactsPage })));
 const UsersPage          = lazy(() => import('./pages/admin/UsersPage').then((m) => ({ default: m.UsersPage })));
+const TenantsPage        = lazy(() => import('./pages/admin/TenantsPage').then((m) => ({ default: m.TenantsPage })));
 
 // ─── Public pages (web pública) ───────────────────────────────────────────────
 const HomePage           = lazy(() => import('./pages/public/HomePage').then((m) => ({ default: m.HomePage })));
@@ -85,6 +86,9 @@ export const router = createBrowserRouter([
 
       // Users (admin only)
       { path: 'users',                  element: <SuspenseShell><UsersPage /></SuspenseShell> },
+
+      // Tenants (super admin only)
+      { path: 'tenants',                element: <SuspenseShell><TenantsPage /></SuspenseShell> },
 
       // 404 inside admin
       { path: '*', element: <NotFound /> },

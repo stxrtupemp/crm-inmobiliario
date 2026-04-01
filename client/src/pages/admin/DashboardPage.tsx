@@ -25,23 +25,23 @@ function PipelineChart({ stats }: { stats: DealStat[] }) {
   return (
     <div className="card p-5">
       <h3 className="mb-4 text-sm font-semibold text-surface-900">Pipeline por etapa</h3>
-      <div className="flex items-end gap-3 h-32">
+      <div className="flex gap-3 h-44">
         {PIPELINE_COLS.map((col) => {
           const stat  = stats.find((s) => s.status === col.key);
           const count = stat?.count ?? 0;
           const pct   = Math.round((count / max) * 100);
           return (
-            <div key={col.key} className="flex flex-1 flex-col items-center gap-1">
-              <span className="text-xs font-semibold text-surface-700">{count}</span>
-              <div className="w-full flex items-end" style={{ height: '80px' }}>
+            <div key={col.key} className="flex flex-1 flex-col items-center">
+              <span className="min-h-[1.25rem] text-xs font-semibold text-surface-700">{count}</span>
+              <div className="flex-1 w-full flex flex-col justify-end">
                 <div
                   className={`w-full rounded-t-md transition-all duration-500 ${col.color}`}
                   style={{ height: `${Math.max(pct, count > 0 ? 4 : 0)}%` }}
                 />
               </div>
-              <span className="text-2xs text-surface-500 text-center leading-tight">
-                {col.label}
-              </span>
+              <div className="min-h-[2rem] flex items-center justify-center">
+                <span className="text-2xs text-surface-500 text-center leading-tight">{col.label}</span>
+              </div>
             </div>
           );
         })}

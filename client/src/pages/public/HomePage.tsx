@@ -6,6 +6,7 @@ import { useProperties } from '../../hooks/useQueries';
 import { SkeletonCard }  from '../../components/ui/Skeleton';
 import { formatCurrency, formatArea } from '../../lib/utils';
 import { cn } from '../../lib/utils';
+import { TENANT_SLUG } from '../../lib/api';
 
 type PropRecord = Record<string, unknown>;
 const TYPE_LABELS: Record<string, string> = {
@@ -110,7 +111,7 @@ function HeroSearch() {
 }
 
 export function HomePage() {
-  const { data, isLoading } = useProperties({ limit: 6, status: 'AVAILABLE', sort: 'created_at_desc' });
+  const { data, isLoading } = useProperties({ limit: 6, status: 'AVAILABLE', sort: 'created_at_desc', ...(TENANT_SLUG && { tenant: TENANT_SLUG }) });
   const featured = (data?.data ?? []) as PropRecord[];
 
   return (
